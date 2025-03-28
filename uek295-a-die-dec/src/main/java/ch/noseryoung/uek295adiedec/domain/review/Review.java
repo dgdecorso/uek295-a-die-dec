@@ -1,5 +1,6 @@
-package ch.noseryoung.uek295adiedec.domain.bookstore;
+package ch.noseryoung.uek295adiedec.domain.review;
 
+import ch.noseryoung.uek295adiedec.domain.bookstore.Book;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -26,6 +27,6 @@ public class Review {
     private boolean isVerified;
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "bookId")
     private Book book;
 }

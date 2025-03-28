@@ -1,11 +1,11 @@
 package ch.noseryoung.uek295adiedec.domain.bookstore;
 
+import ch.noseryoung.uek295adiedec.domain.review.Review;
+import ch.noseryoung.uek295adiedec.domain.review.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,17 +13,20 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/books")
-public class BookWeb {
+public class BookController {
 
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private ReviewService reviewService;
+    //Erstellt Methode um alle Bücher abzurufen
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks() {
         return ResponseEntity.status(HttpStatus.OK).body(bookService.getBooks());
     }
 
-
+    //Ruft einzelne Bücher auf durch das Hinzufügen der ID am Ende der Adresse
     @GetMapping("/{bookId}")
     public ResponseEntity<Book> getBook(@PathVariable("bookId") String bookId) {
         Book book = bookService.getBook(UUID.fromString(bookId));
@@ -55,4 +58,13 @@ public class BookWeb {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/reviews")
+    public ResponseEntity<List<Review>> getAllReviews() {
+        return ResponseEntity.status(HttpStatus.OK).body(reviewService.getReviews());
+    }
+
+    @PostMapping("/reviews")
+    public ResponseEntity<Review> addReview(@RequestBody Review review) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(reviewService.createReview(review));
+    }
 }

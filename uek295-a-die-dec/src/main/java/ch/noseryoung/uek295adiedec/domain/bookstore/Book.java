@@ -1,24 +1,28 @@
 package ch.noseryoung.uek295adiedec.domain.bookstore;
 
+import ch.noseryoung.uek295adiedec.domain.review.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.w3c.dom.stylesheets.LinkStyle;
 
+import javax.naming.Name;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
 @Setter
 @NoArgsConstructor
-
+@Table(name = "Book")
 @Entity
 public class Book {
 
     @Column(name = "id", nullable = false)
-
     @Id
     @GeneratedValue
     private UUID id;
@@ -26,10 +30,6 @@ public class Book {
     private   String language;
     private double price;
 
-    public Book(String title, String language, double price) {
-        this.title = title;
-        this.language = language;
-        this.price = price;
-        this.id = UUID.randomUUID();  // Assign a random UUID
-    }
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 }
