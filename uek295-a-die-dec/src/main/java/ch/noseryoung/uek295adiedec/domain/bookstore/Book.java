@@ -1,6 +1,7 @@
 package ch.noseryoung.uek295adiedec.domain.bookstore;
 
 import ch.noseryoung.uek295adiedec.domain.review.Review;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,9 @@ public class Book {
     private   String language;
     private double price;
 
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
+
 }

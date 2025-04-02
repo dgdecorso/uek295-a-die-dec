@@ -1,5 +1,6 @@
 package ch.noseryoung.uek295adiedec.domain.review;
 
+import ch.noseryoung.uek295adiedec.domain.bookstore.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,24 +23,28 @@ public class ReviewService {
     }
 
     public Review createReview(Review review) {
+        if (review.getNumStars() > 10) {
+
+        }
         return reviewRepository.save(review);
     }
+
+    public void deleteReview(UUID id) {
+        reviewRepository.deleteById(id);
+    }
+
 
     public Review updateReview(UUID id, Review review) {
         Optional<Review> reviewOptional = reviewRepository.findById(id);
         if (reviewOptional.isPresent()) {
-            Review updatedReview = reviewOptional.get();
-            review.setId(updatedReview.getId());
-            review.setVerified(updatedReview.isVerified());
-            review.setNumStars(updatedReview.getNumStars());
-            return reviewRepository.save(updatedReview);
-
+            reviewOptional.get().setBook(review.getBook());
+            reviewOptional.get().setNumStars(review.getNumStars());
+            reviewOptional.get().setComment(review.getComment());
+            reviewOptional.get().setVerified(review.isVerified());
+            reviewRepository.save(reviewOptional.get());
+            return reviewOptional.get();
         }
         return null;
-    }
-
-    public void deleteReview(UUID id) {
-        Optional<Review> reviewOptional = reviewRepository.findById(id);
     }
 
 }

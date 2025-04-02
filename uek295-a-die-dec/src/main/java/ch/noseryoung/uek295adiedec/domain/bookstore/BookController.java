@@ -63,8 +63,32 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(reviewService.getReviews());
     }
 
+    @GetMapping("/reviews/{reviewId}")
+    public ResponseEntity<Review> getReview(@PathVariable("reviewId") String reviewId) {
+        Review review = reviewService.getReview(UUID.fromString(reviewId));
+        if (review == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(review);
+    }
+
     @PostMapping("/reviews")
     public ResponseEntity<Review> addReview(@RequestBody Review review) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reviewService.createReview(review));
+    }
+
+    @DeleteMapping("/reviews/{reviewId}")
+    public ResponseEntity<Review> deleteReview(@PathVariable String reviewId) {
+        reviewService.deleteReview(UUID.fromString(reviewId));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping ("/reviews/{reviewId}")
+    public ResponseEntity<Review> updateReview(@PathVariable String reviewId, @RequestBody Review newReview) {
+      Review updated = reviewService.updateReview(UUID.fromString(reviewId), newReview);
+      if (updated == null) {
+          return ResponseEntity.notFound().build();
+      }
+      return ResponseEntity.ok(updated);
     }
 }
