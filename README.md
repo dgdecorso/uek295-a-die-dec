@@ -57,7 +57,7 @@ Dies ist ein Java Spring Boot-Projekt, das eine einfache REST-API für die Verwa
 | POST   | `/api/books`        | Neues Buch erstellen     |
 | PUT    | `/api/books/{id}`   | Buch aktualisieren       |
 | DELETE | `/api/books/{id}`   | Buch löschen             |
-
+| GET (Sortiert) | `/api/books/price/ascending`   | Buch löschen             |
 ###  Bewertungen
 
 | Methode | Pfad                          | Beschreibung                     |
