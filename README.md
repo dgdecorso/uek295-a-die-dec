@@ -66,7 +66,6 @@ Dies ist ein Java Spring Boot-Projekt, das eine einfache REST-API für die Verwa
 | GET    | `/api/books/reviews`          | Alle Reviews abrufen             |
 | GET    | `/api/books/reviews/{id}`     | Einzelnes Review abrufen         |
 | POST   | `/api/books/reviews`          | Neues Review hinzufügen          |
-| POST   | `/api/books/{bookId}/reviews` | Review zu einem Buch hinzufügen  |
 | PUT    | `/api/books/reviews/{id}`     | Review aktualisieren             |
 | DELETE | `/api/books/reviews/{id}`     | Review löschen                   |
 
