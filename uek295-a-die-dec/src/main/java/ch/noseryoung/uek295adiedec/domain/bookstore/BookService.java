@@ -1,6 +1,7 @@
 package ch.noseryoung.uek295adiedec.domain.bookstore;
 
 
+import ch.noseryoung.uek295adiedec.domain.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,7 @@ public class BookService {
     }
 
     public Book getBook(UUID id) {
-        Optional<Book> book = bookRepository.findById(id);
-    return book.orElse(null);
+        return bookRepository.findById(id).orElse(null);
     }
 
     public Book createBook(Book book) {
@@ -35,11 +35,15 @@ public class BookService {
             bookRepository.save(bookOptional.get());
             return bookOptional.get();
         }
-        return null;
+        throw new NotFoundException("Book with id " + id + " not found");
     }
 
 public void deleteBook(UUID id) {
-        bookRepository.deleteById(id);
+ if (bookRepository.existsById(id)) {
+     bookRepository.deleteById(id);
+ }else{
+     throw new NotFoundException("Book with id " + id + " not found");
 }
 
+    }
 }

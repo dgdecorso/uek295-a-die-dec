@@ -1,6 +1,7 @@
 package ch.noseryoung.uek295adiedec.domain.review;
 
 import ch.noseryoung.uek295adiedec.domain.bookstore.Book;
+import ch.noseryoung.uek295adiedec.domain.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,10 @@ public class ReviewService {
 
     public Review getReview(UUID id) {
         Optional<Review> review = reviewRepository.findById(id);
-        return null;
+        return review.orElse(null);
     }
 
     public Review createReview(Review review) {
-        if (review.getNumStars() > 10) {
-
-        }
         return reviewRepository.save(review);
     }
 
@@ -44,7 +42,7 @@ public class ReviewService {
             reviewRepository.save(reviewOptional.get());
             return reviewOptional.get();
         }
-        return null;
+        throw new NotFoundException( "Review not" + id + " found");
     }
 
 }

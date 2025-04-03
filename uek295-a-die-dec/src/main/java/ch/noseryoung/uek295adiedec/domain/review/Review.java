@@ -24,6 +24,7 @@ public class Review {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
+
     private UUID id;
 
     @Min(1)
@@ -32,7 +33,6 @@ public class Review {
 
     @Valid
     private String comment;
-
     private boolean isVerified;
 
     @JsonBackReference

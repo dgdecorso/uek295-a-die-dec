@@ -1,7 +1,9 @@
 package ch.noseryoung.uek295adiedec.domain.bookstore;
 
 import ch.noseryoung.uek295adiedec.domain.review.Review;
+import ch.noseryoung.uek295adiedec.domain.review.ReviewRepository;
 import ch.noseryoung.uek295adiedec.domain.review.ReviewService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,11 @@ public class BookController {
 
     @Autowired
     private ReviewService reviewService;
+    @Autowired
+    private BookRepository bookRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
+
     //Erstellt Methode um alle Bücher abzurufen
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks() {
@@ -28,10 +35,10 @@ public class BookController {
 
     //Ruft einzelne Bücher auf durch das Hinzufügen der ID am Ende der Adresse
     @GetMapping("/{bookId}")
-    public ResponseEntity<Book> getBook(@PathVariable("bookId") String bookId) {
-        Book book = bookService.getBook(UUID.fromString(bookId));
+    public ResponseEntity getBook(@PathVariable("bookId") UUID bookId) {
+        Book book = bookService.getBook(bookId);
         if (book == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Book Not Found " + bookId);
         }
         return ResponseEntity.status(HttpStatus.OK).body(book);
     }
@@ -73,7 +80,7 @@ public class BookController {
     }
 
     @PostMapping("/reviews")
-    public ResponseEntity<Review> addReview(@RequestBody Review review) {
+    public ResponseEntity<Review> addReview(@Valid @RequestBody Review review) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reviewService.createReview(review));
     }
 
@@ -91,4 +98,16 @@ public class BookController {
       }
       return ResponseEntity.ok(updated);
     }
+
+
+    @GetMapping("/price/ascending")
+    public ResponseEntity<List<Book>> getBooksAscending() {
+        return ResponseEntity.ok( bookRepository.sortByPrice());
+    }
+
+//@GetMapping("/reviews/numberStars/ascending")
+  //  public ResponseEntity<List<Review>> getBooksNumberStars() {
+    //    return ResponseEntity.ok(reviewRepository.sortByStars());
+    //}
+
 }
